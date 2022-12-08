@@ -1,20 +1,25 @@
 package com.gabrielgrs2.listrepos.data.dto
 
-import com.squareup.moshi.Json
+import android.os.Parcelable
+import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class SearchDto(
-    @field:Json(name = "total_count") val totalCount: Int,
-    @field:Json(name = "items") val repositories: List<RepositoryDto>
-)
+    @SerializedName("total_count") val totalCount: Int,
+    @SerializedName("items") val repositories: List<RepositoryDto>
+) : Parcelable
 
+@Parcelize
 data class RepositoryDto(
-    @field:Json(name = "owner") val owner: OwnerDto,
-    @field:Json(name = "name") val name: String,
-    @field:Json(name = "forks_count") val forksCount: Int,
-    @field:Json(name = "stargazers_count") val starGazersCount: Int
-)
+    @SerializedName("owner") val owner: OwnerDto,
+    @SerializedName("name") val name: String,
+    @SerializedName("forks_count") val forksCount: Int,
+    @SerializedName("stargazers_count") val starGazersCount: Int
+) : Parcelable
 
+@Parcelize
 data class OwnerDto(
-    @field:Json(name = "avatar_url") val avatarUrl: String,
-    @field:Json(name = "login") val login: String
-)
+    @SerializedName("avatar_url") val avatarUrl: String,
+    @SerializedName("login") val login: String
+) : Parcelable

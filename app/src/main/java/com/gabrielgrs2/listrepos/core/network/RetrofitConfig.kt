@@ -1,10 +1,11 @@
 package com.gabrielgrs2.listrepos.core.network
 
 import com.gabrielgrs2.listrepos.data.api.IApiCore
+import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 fun provideApi(retrofit: Retrofit): IApiCore = retrofit.create(IApiCore::class.java)
@@ -15,10 +16,10 @@ fun provideRetrofit(): Retrofit {
 
     addConnectionTimeout(httpClient)
     addInterceptors(httpClient)
- // TODO Change this url to gradle file
+    // TODO Change this url to gradle file
     retrofit = Retrofit.Builder()
         .baseUrl("https://api.github.com")
-        .addConverterFactory(MoshiConverterFactory.create())
+        .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
         .client(httpClient.build())
         .build()
 
