@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">List Repos</string>
+    <string name="retry">Tentar novamente</string>
 </resources>

@@ -1,7 +1,6 @@
 package com.gabrielgrs2.listrepos.presentation.home
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -31,7 +30,10 @@ class HomeActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
     }
 
     private fun initAdapter() {
-        binding.repositoryListRv.adapter = repositoriesAdapter
+        binding.repositoryListRv.adapter = repositoriesAdapter.withLoadStateHeaderAndFooter(
+            header = PhotosLoadStateAdapter { repositoriesAdapter.retry() },
+            footer = PhotosLoadStateAdapter { repositoriesAdapter.retry() }
+        )
     }
 
 
