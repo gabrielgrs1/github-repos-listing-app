@@ -6,7 +6,6 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class SearchDto(
-    @SerializedName("total_count") val totalCount: Int,
     @SerializedName("items") val repositories: List<RepositoryDto>
 ) : Parcelable
 

@@ -1,14 +1,12 @@
 package com.gabrielgrs2.listrepos.core.network
 
-import com.gabrielgrs2.listrepos.data.api.ISearchService
 import com.google.gson.GsonBuilder
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
-
-fun provideApi(retrofit: Retrofit): ISearchService = retrofit.create(ISearchService::class.java)
 
 fun provideRetrofit(): Retrofit {
     lateinit var retrofit: Retrofit
@@ -18,9 +16,10 @@ fun provideRetrofit(): Retrofit {
     addInterceptors(httpClient)
     // TODO Change this url to gradle file
     retrofit = Retrofit.Builder()
-        .baseUrl("https://api.github.com")
-        .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
         .client(httpClient.build())
+        .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
+        .addCallAdapterFactory(CoroutineCallAdapterFactory())
+        .baseUrl("https://api.github.com")
         .build()
 
     return retrofit
