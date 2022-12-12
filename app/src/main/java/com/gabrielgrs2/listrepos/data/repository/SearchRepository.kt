@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 class SearchRepository(private val service: ISearchService) : ISearchRepository {
 
     companion object {
-        private const val NETWORK_PAGE_SIZE = 10
+        private const val NETWORK_PAGE_SIZE = 30
     }
 
     override fun getSearchRepositories(): Flow<PagingData<Repository>> {

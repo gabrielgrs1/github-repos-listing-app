@@ -21,8 +21,8 @@ class RepositoriesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
     ) {
 
         binding.repositoryNameTv.text = repository.name
-        binding.repositoryStarsTv.text = repository.starGazersCount.toString()
-        binding.repositoryForksCountTv.text = repository.forksCount.toString()
+        binding.repositoryStarsTv.text = "Stars: ${repository.starGazersCount}"
+        binding.repositoryForksCountTv.text = "Forks: ${repository.forksCount}"
         binding.userAuthorTv.text = repository.owner.login
 
         Picasso
