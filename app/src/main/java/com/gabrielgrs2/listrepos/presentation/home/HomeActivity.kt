@@ -1,67 +1,62 @@
 package com.gabrielgrs2.listrepos.presentation.home
 
-import androidx.core.view.isVisible
-import androidx.recyclerview.widget.GridLayoutManager
-import com.gabrielgrs2.listrepos.core.platform.BaseActivity
+import android.os.Bundle
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.gabrielgrs2.listrepos.databinding.ActivityHomeBinding
-import com.gabrielgrs2.listrepos.domain.model.Search
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class HomeActivity : BaseActivity() {
+class HomeActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
 
     private val homeViewModel: HomeViewModel by viewModel()
 
     private lateinit var binding: ActivityHomeBinding
-    private lateinit var repositoriesAdapter: RepositoriesAdapter
 
-    override fun init() {
+    private val repositoriesAdapter = RepositoriesAdapter(this)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         initViewBinding()
-        observeViewModelEvents()
-        observeViewModelStates()
+        observeViewState()
+        if (savedInstanceState == null) {
+            lifecycleScope.launch {
+                homeViewModel.onSuspendedEvent(Event.ScreenLoad)
+            }
+        }
         initAdapter()
-        homeViewModel.getSearchRepositories("1")
+        binding.repositoryRefreshSrl.setOnRefreshListener(this)
     }
 
     private fun initAdapter() {
-        binding.repositoryListRv.layoutManager =
-            GridLayoutManager(this, 1, GridLayoutManager.VERTICAL, false)
-        repositoriesAdapter = RepositoriesAdapter(listOf(), this)
         binding.repositoryListRv.adapter = repositoriesAdapter
     }
+
 
     private fun initViewBinding() {
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
     }
 
-    private fun observeViewModelEvents() {
-        homeViewModel.viewEvent.observe(this@HomeActivity) {
-            when (it) {
-                is HomeViewEvent.OnSearchSuccess -> handleSearchSuccess(it.search)
-                is HomeViewEvent.OnSearchFailed -> showError()
-            }
+    private fun observeViewState() {
+        homeViewModel.obtainState.observe(this@HomeActivity) {
+            render(it)
         }
     }
 
-    private fun showError() {
-        // TODO Show toast error
-    }
-
-    private fun handleSearchSuccess(search: Search) {
-        repositoriesAdapter.repositories = search.repositories
-        repositoriesAdapter.notifyDataSetChanged()
-    }
-
-    private fun observeViewModelStates() {
-        homeViewModel.viewState.observe(this@HomeActivity) {
-            when (it) {
-                is HomeViewState.IsLoading ->
-                    showLoading(it.isLoading)
-            }
+    private fun render(state: HomeViewState) {
+        binding.repositoryRefreshSrl.isRefreshing = false
+        state.loadingStateVisibility?.let { binding.loadingIv.visibility = it }
+        lifecycleScope.launch {
+            state.page?.let { repositoriesAdapter.submitData(it) }
         }
     }
 
-    private fun showLoading(isLoading: Boolean) {
-        binding.loadingIv.isVisible = isLoading
+    override fun onRefresh() {
+        lifecycleScope.launch {
+            homeViewModel.onSuspendedEvent(Event.ScreenLoad)
+        }
     }
 }

@@ -12,6 +12,7 @@ data class SearchDto(
 
 @Parcelize
 data class RepositoryDto(
+    @SerializedName("id") val id: Int,
     @SerializedName("owner") val owner: OwnerDto,
     @SerializedName("name") val name: String,
     @SerializedName("forks_count") val forksCount: Int,

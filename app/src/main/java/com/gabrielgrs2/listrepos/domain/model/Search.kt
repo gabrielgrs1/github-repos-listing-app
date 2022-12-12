@@ -10,6 +10,7 @@ data class Search(
 
 @Parcelize
 data class Repository(
+    val id: Int,
     val owner: Owner,
     val name: String,
     val forksCount: Int,

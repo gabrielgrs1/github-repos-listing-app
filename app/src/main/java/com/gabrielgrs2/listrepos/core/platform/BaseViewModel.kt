@@ -1,19 +1,34 @@
 package com.gabrielgrs2.listrepos.core.platform
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers.Main
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.cancelChildren
-import kotlin.coroutines.CoroutineContext
+import com.gabrielgrs2.listrepos.domain.model.Lce
+import kotlinx.coroutines.Job
 
-abstract class BaseViewModel : ViewModel(), CoroutineScope {
+abstract class BaseViewModel<ViewState : BaseViewState,
+        Event : BaseEvent,
+        Result : BaseResult>(initialState: ViewState) : ViewModel() {
 
-    private val viewModelJob = SupervisorJob()
-    override var coroutineContext: CoroutineContext = Main + viewModelJob
+    internal val viewStateLD = MutableLiveData<ViewState>()
+    val viewState: LiveData<ViewState> get() = viewStateLD
 
-    override fun onCleared() {
-        super.onCleared()
-        viewModelJob.cancelChildren()
+    var loadJob: Job? = null
+
+    suspend fun onSuspendedEvent(event: Event) {
+        suspendEventToResult(event)
     }
+
+    abstract fun eventToResult(event: Event)
+
+    abstract suspend fun suspendEventToResult(event: Event)
+
+    abstract fun resultToViewState(result: Lce<Result>)
+
 }
+
+interface BaseViewState
+
+interface BaseEvent
+
+interface BaseResult

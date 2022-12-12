@@ -10,6 +10,7 @@ fun SearchDto.toSearchRepositories(): Search {
     return Search(
         repositories = repositories.map { repository ->
             Repository(
+                id = repository.id,
                 owner = repository.owner.toOwner(),
                 name = repository.name,
                 forksCount = repository.forksCount,

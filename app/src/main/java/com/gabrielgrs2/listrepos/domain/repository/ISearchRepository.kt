@@ -1,8 +1,9 @@
 package com.gabrielgrs2.listrepos.domain.repository
 
-import com.gabrielgrs2.listrepos.core.utils.Result
-import com.gabrielgrs2.listrepos.domain.model.Search
+import androidx.paging.PagingData
+import com.gabrielgrs2.listrepos.domain.model.Repository
+import kotlinx.coroutines.flow.Flow
 
 interface ISearchRepository {
-    suspend fun getSearchRepositories(page: String): Result<Search>
+    fun getSearchRepositories(): Flow<PagingData<Repository>>
 }

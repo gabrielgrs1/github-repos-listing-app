@@ -1,6 +1,6 @@
 package com.gabrielgrs2.listrepos.core.network
 
-import com.gabrielgrs2.listrepos.data.api.IApiCore
+import com.gabrielgrs2.listrepos.data.api.ISearchService
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -8,7 +8,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
-fun provideApi(retrofit: Retrofit): IApiCore = retrofit.create(IApiCore::class.java)
+fun provideApi(retrofit: Retrofit): ISearchService = retrofit.create(ISearchService::class.java)
 
 fun provideRetrofit(): Retrofit {
     lateinit var retrofit: Retrofit
