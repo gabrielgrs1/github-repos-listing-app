@@ -33,6 +33,9 @@ class SearchPagingSource(
         } catch (exception: HttpException) {
             exception.printStackTrace()
             return LoadResult.Error(exception)
+        } catch (exception: RuntimeException) {
+            exception.printStackTrace()
+            return LoadResult.Error(exception)
         }
     }
 
