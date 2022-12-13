@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://github.com/gabrielgrs1/github-repos-listing-app/actions"><img alt="Build Status" src="https://github.com/gabrielgrs1/github-repos-listing-app/workflows/Android%20CI/badge.svg"/></a>
+  <a href="https://github.com/gabrielgrs1/github-repos-listing-app/actions"><img alt="Build Status" src="https://github.com/gabrielgrs1/github-repos-listing-app/workflows/Android%20CI%20(Push)/badge.svg"/></a>
   <a href="https://android-arsenal.com/api?level=21"><img alt="API" src="https://img.shields.io/badge/API-21%2B-brightgreen.svg?style=flat"/></a>
 </p>
 <h1 align="center">Github Kotlin List Repositories</h1>
