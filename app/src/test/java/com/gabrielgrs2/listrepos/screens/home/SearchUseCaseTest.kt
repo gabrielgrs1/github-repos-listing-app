@@ -2,12 +2,10 @@ package com.gabrielgrs2.listrepos.screens.home
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.gabrielgrs2.listrepos.base.BaseUTTest
-import com.gabrielgrs2.listrepos.data.api.ISearchService
 import com.gabrielgrs2.listrepos.di.configureTestAppComponent
 import com.gabrielgrs2.listrepos.domain.repository.ISearchRepository
 import com.gabrielgrs2.listrepos.domain.usecase.home.GetSearchRepositoriesUseCase
 import kotlinx.coroutines.runBlocking
-import okhttp3.mockwebserver.MockWebServer
 import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Rule

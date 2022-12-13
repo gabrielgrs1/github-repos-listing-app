@@ -24,22 +24,24 @@ abstract class BaseUTTest : KoinTest {
     private var mShouldStart = false
 
     @Before
-    open fun setUp(){
+    open fun setUp() {
         startMockServer(true)
     }
 
     /**
      * Helps to read input file returns the respective data in mocked call
      */
-    fun mockNetworkResponseWithFileContent(fileName: String, responseCode: Int) = mMockServerInstance.enqueue(
-        MockResponse()
-            .setResponseCode(responseCode)
-            .setBody(getJson(fileName)))
+    fun mockNetworkResponseWithFileContent(fileName: String, responseCode: Int) =
+        mMockServerInstance.enqueue(
+            MockResponse()
+                .setResponseCode(responseCode)
+                .setBody(getJson(fileName))
+        )
 
     /**
      * Reads input file and converts to json
      */
-    fun getJson(path : String) : String {
+    fun getJson(path: String): String {
         val uri = javaClass.classLoader!!.getResource(path)
         val file = File(uri.path)
         return String(file.readBytes())
@@ -48,8 +50,8 @@ abstract class BaseUTTest : KoinTest {
     /**
      * Start Mockwebserver
      */
-    private fun startMockServer(shouldStart:Boolean){
-        if (shouldStart){
+    private fun startMockServer(shouldStart: Boolean) {
+        if (shouldStart) {
             mShouldStart = shouldStart
             mMockServerInstance = MockWebServer()
             mMockServerInstance.start()
@@ -65,16 +67,14 @@ abstract class BaseUTTest : KoinTest {
      * Stop Mockwebserver
      */
     private fun stopMockServer() {
-        if (mShouldStart){
+        if (mShouldStart) {
             mMockServerInstance.shutdown()
         }
     }
 
     @After
-    open fun tearDown(){
-        //Stop Mock server
+    open fun tearDown() {
         stopMockServer()
-        //Stop Koin as well
         stopKoin()
     }
 }

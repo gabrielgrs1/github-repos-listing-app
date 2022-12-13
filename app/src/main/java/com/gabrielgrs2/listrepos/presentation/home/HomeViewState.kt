@@ -7,11 +7,9 @@ import com.gabrielgrs2.listrepos.core.platform.BaseEvent
 import com.gabrielgrs2.listrepos.core.platform.BaseResult
 import com.gabrielgrs2.listrepos.core.platform.BaseViewState
 import com.gabrielgrs2.listrepos.domain.model.Repository
-import com.gabrielgrs2.listrepos.domain.model.Search
 
 data class HomeViewState(
     val page: PagingData<Repository>? = null,
-    val adapterList: List<Search> = emptyList(),
     val errorMessageResource: Int? = null,
     val errorMessage: String? = null,
     val loadingStateVisibility: Int? = View.GONE,
