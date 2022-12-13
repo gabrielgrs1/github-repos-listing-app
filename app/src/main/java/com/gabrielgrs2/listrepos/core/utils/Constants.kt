@@ -8,7 +8,7 @@ internal class Constants private constructor() {
     }
 
     internal object Numbers {
-        const val SEARCH_STARTING_PAGE_INDEX = 30
+        const val SEARCH_STARTING_PAGE_INDEX = 1
 
     }
 }
