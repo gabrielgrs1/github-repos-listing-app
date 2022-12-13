@@ -275,8 +275,6 @@ class SearchServiceTest {
         assertFalse(search.repositories.isEmpty())
         assertTrue(search.repositories[0].id == 3432266)
         assertTrue(search.repositories[0].name == "kotlin")
-        assertTrue(search.repositories[0].forksCount == 5366)
-        assertTrue(search.repositories[0].starGazersCount == 43318)
         assertTrue(search.repositories[0].owner.login == "JetBrains")
         assertTrue(search.repositories[0].owner.avatarUrl == "https://avatars.githubusercontent.com/u/878437?v=4")
 
