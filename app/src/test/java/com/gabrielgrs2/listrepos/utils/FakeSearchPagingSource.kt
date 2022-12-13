@@ -1,4 +1,4 @@
-package com.gabrielgrs2.listrepos.screens.utils
+package com.gabrielgrs2.listrepos.utils
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState

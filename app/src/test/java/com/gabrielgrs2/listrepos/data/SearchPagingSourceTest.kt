@@ -5,10 +5,8 @@ import androidx.paging.PagingSource
 import com.gabrielgrs2.listrepos.base.BaseUTTest
 import com.gabrielgrs2.listrepos.domain.model.Owner
 import com.gabrielgrs2.listrepos.domain.model.Repository
-import com.gabrielgrs2.listrepos.domain.usecase.home.GetSearchRepositoriesUseCase
-import com.gabrielgrs2.listrepos.screens.utils.FakeSearchPagingSource
+import com.gabrielgrs2.listrepos.utils.FakeSearchPagingSource
 import io.mockk.MockKAnnotations
-import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Before

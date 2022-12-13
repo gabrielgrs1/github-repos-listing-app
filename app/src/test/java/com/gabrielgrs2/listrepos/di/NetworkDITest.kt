@@ -10,8 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 /**
  * Network module test configuration with mockserver url.
  */
-fun configureNetworkModuleForTest(baseApi: String)
-        = module{
+fun configureNetworkModuleForTest(baseApi: String) = module {
     single {
         Retrofit.Builder()
             .baseUrl(baseApi)
@@ -19,5 +18,5 @@ fun configureNetworkModuleForTest(baseApi: String)
             .addCallAdapterFactory(CoroutineCallAdapterFactory())
             .build()
     }
-    factory{ get<Retrofit>().create(ISearchService::class.java) }
+    factory { get<Retrofit>().create(ISearchService::class.java) }
 }
