@@ -4,7 +4,7 @@
 </p>
 <h1 align="center">Github Kotlin List Repositories</h1>
 
-A demo app usgin [github search api](https://docs.github.com/en/rest/search?apiVersion=2022-11-28#search-repositories) to prove concept on Android Development best pratice.
+A demo app using [github search api](https://docs.github.com/en/rest/search?apiVersion=2022-11-28#search-repositories) to prove concept on Android Development best pratice.
 
 ## Tech Stack
 
