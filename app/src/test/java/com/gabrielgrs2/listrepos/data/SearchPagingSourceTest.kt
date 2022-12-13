@@ -3,13 +3,17 @@ package com.gabrielgrs2.listrepos.data
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.paging.PagingSource
 import com.gabrielgrs2.listrepos.base.BaseUTTest
-import com.gabrielgrs2.listrepos.domain.model.Owner
+import com.gabrielgrs2.listrepos.data.api.ISearchService
+import com.gabrielgrs2.listrepos.data.dto.OwnerDto
+import com.gabrielgrs2.listrepos.data.dto.RepositoryDto
+import com.gabrielgrs2.listrepos.data.dto.SearchDto
+import com.gabrielgrs2.listrepos.data.mapper.toSearchRepositories
+import com.gabrielgrs2.listrepos.data.repository.SearchPagingSource
 import com.gabrielgrs2.listrepos.domain.model.Repository
-import com.gabrielgrs2.listrepos.utils.FakeSearchPagingSource
-import io.mockk.MockKAnnotations
+import io.mockk.coEvery
+import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -22,37 +26,54 @@ class SearchPagingSourceTest : BaseUTTest() {
 
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
-    val pagingSource = FakeSearchPagingSource()
-
-    @Before
-    fun start() {
-        super.setUp()
-        MockKAnnotations.init(this)
-    }
+    val searchService: ISearchService = mockk(relaxed = true)
+    val pagingSource = SearchPagingSource(searchService)
 
     @Test
     fun `verify paging data is success when paging correctly loaded`() {
         runTest {
+            val searchDto = SearchDto(
+                repositories = listOf(
+                    RepositoryDto(1, OwnerDto("", "teste"), "nome", 1, 1),
+                    RepositoryDto(2, OwnerDto("", "teste2"), "nome2", 2, 2)
+                )
+            )
+            coEvery {
+                searchService.getSearchRepositories(
+                    query = "language:kotlin",
+                    sort = "stars",
+                    page = 1
+                )
+            } returns searchDto
             val params: PagingSource.LoadParams.Refresh<Int> = PagingSource.LoadParams.Refresh(
                 key = null,
                 loadSize = 2,
                 placeholdersEnabled = false
             )
 
-            val repositories = listOf(
-                Repository(1, Owner("", "teste"), "nome", 1, 1),
-                Repository(2, Owner("", "teste2"), "nome2", 2, 2)
-            )
-
             assertEquals(
                 expected = PagingSource.LoadResult.Page(
-                    data = repositories,
+                    data = searchDto.toSearchRepositories().repositories,
                     prevKey = null,
-                    nextKey = repositories[1].id
+                    nextKey = 2
                 ), actual = pagingSource.load(params)
             )
-
         }
     }
 
+    @Test
+    fun `reviews paging source load - failure - http error`() = runTest {
+        val error = RuntimeException("404", Throwable())
+        coEvery { searchService.getSearchRepositories(any(), any(), any()) }.throws(error)
+        val expectedResult = PagingSource.LoadResult.Error<Int, Repository>(error)
+        assertEquals(
+            expectedResult, pagingSource.load(
+                PagingSource.LoadParams.Refresh(
+                    key = 0,
+                    loadSize = 1,
+                    placeholdersEnabled = false
+                )
+            )
+        )
+    }
 }
