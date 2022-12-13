@@ -7,6 +7,7 @@ sealed class Lce<T> {
             return javaClass.hashCode()
         }
     }
+
     data class Content<T>(val packet: T) : Lce<T>()
     data class Error<T>(val packet: T) : Lce<T>()
 }

@@ -7,13 +7,10 @@ import com.gabrielgrs2.listrepos.domain.model.Repository
 import retrofit2.HttpException
 import java.io.IOException
 
-private const val SEARCH_STARTING_PAGE_INDEX = 1
-
-
 class FakeSearchPagingSource : PagingSource<Int, Repository>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Repository> {
-        val position = params.key ?: SEARCH_STARTING_PAGE_INDEX
+        val position = params.key ?: 1
         return try {
             val repositories = listOf(
                 Repository(1, Owner("", "teste"), "nome", 1, 1),
@@ -21,7 +18,7 @@ class FakeSearchPagingSource : PagingSource<Int, Repository>() {
             )
             LoadResult.Page(
                 data = repositories,
-                prevKey = if (position == SEARCH_STARTING_PAGE_INDEX) null else position,
+                prevKey = if (position == 1) null else position,
                 nextKey = if (repositories.isEmpty()) null else position + 1
             )
         } catch (exception: IOException) {
@@ -34,6 +31,7 @@ class FakeSearchPagingSource : PagingSource<Int, Repository>() {
     }
 
     override fun getRefreshKey(state: PagingState<Int, Repository>): Int? {
-        TODO("Not yet implemented")
+        /* Do nothing */
+        return -1
     }
 }
